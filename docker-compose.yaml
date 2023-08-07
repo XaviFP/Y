@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_USER: 'y'
+      POSTGRES_PASSWORD: 'y'
+      POSTGRES_DB: 'y'
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+  aggregator:
+    build: aggregator/
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+  publisher:
+    build: publisher/
+    depends_on:
+      - db
+    ports:
+      - "8081:8081"
+    expose:
+      - "8081"
